@@ -222,3 +222,14 @@ cython_debug/
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/python,c++,visualstudiocode
+.vscode/* 
+
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+.vscode/settings.json
