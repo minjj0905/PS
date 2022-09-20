@@ -15,5 +15,3 @@ for i in range(t):
       doll = arr[i]
 
   print(cnt)
-
-# 94점
