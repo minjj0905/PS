@@ -1,33 +1,35 @@
 import sys
-
-def search(x, y, arr, check):
-  dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
-  value = 9999
-
-  if x == 0 and y == 0:
-    return 99999
-
-  if arr[x][y] == 0:
-    return 999999
-
-  for dir in dirs:
-    if (len(arr)> x+dir[0] >= 0) and (len(arr[0]) > y+dir[1] >= 0):
-      if arr[x+dir[0]][y+dir[1]] == 1 and check[x+dir[0]][y+dir[1]] != 1:
-        check[x+dir[0]][y+dir[1]] = 1
-        value = min(search(x+dir[0], y+dir[1], arr, check), value)
-      
-
-  return value+1
+from collections import deque
 
 t = int(sys.stdin.readline())
 
 for i in range(t):
-  n, m = map(int, sys.stdin.readline().split())
-  arr = []
+  n, m = map(int, input().split())
+  graph = []
 
-  for i in range(m):
-    arr.append(list(map(int, sys.stdin.readline().split())))
+  for _ in range(n):
+      graph.append(list(map(int, list(input()))))
 
-  check = [[0 for _  in range(m)] for _ in range(n)]
+  queue = deque()
+  queue.append((0, 0))
 
-  print(search(n-1, m-1, arr, check))
+  dy = [1, 0, -1, 0]
+  dx = [0, 1, 0, -1]
+
+  while queue:
+      y, x = queue.popleft()
+
+      for i in range(4):
+          nx = x + dx[i]
+          ny = y + dy[i]
+
+          if 0 <= ny < n and 0 <= nx < m and graph[ny][nx]:
+              if graph[ny][nx] == 1:
+                  graph[ny][nx] = graph[y][x] + 1
+                  queue.append((ny, nx))
+              
+              elif graph[ny][nx] > graph[y][x] + 1:
+                  graph[ny][nx] = graph[y][x] + 1
+                  queue.append((ny, nx))
+
+  print(graph[n-1][m-1])
