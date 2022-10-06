@@ -13,7 +13,10 @@ len_t = len(t)
 g = gcd(len_s, len_t)
 lcm = len_s * len_t // g
 
-s = s*(lcm//len_s)
-t = t*(lcm//len_t)
+ans = 1
+for i in range(lcm):
+    if s[i%len_s] != t[i%len_t]:
+        ans = 0
+        break
 
-sys.stdout.write('1\n' if s==t else '0\n')
+sys.stdout.write(str(ans) + '\n')
