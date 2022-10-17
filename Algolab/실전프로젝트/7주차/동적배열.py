@@ -26,6 +26,5 @@ for _ in range(tc):
             
             # 원소 갯수 바꾸기
             arr[a]["elements"] = elements
-        print(arr[1])
     
     sys.stdout.write(str(cnt) + '\n')
