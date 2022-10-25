@@ -234,4 +234,4 @@ cython_debug/
 !*/
 .vscode/settings.json
 
-.cph/*
+*.cph
