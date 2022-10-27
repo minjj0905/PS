@@ -1,114 +1,85 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
-#define ll long long
+#define for1(s,n) for(int i = s; i < n; i++)
+#define for1j(s,n) for(int j = s; j < n; j++)
+#define foreach(k) for(auto i : k)
+#define foreachj(k) for(auto j : k)
+#define pb(a) push_back(a)
+#define sz(a) a.size()
 
 using namespace std;
+typedef unsigned long long ull;
+typedef long long ll;
+typedef vector <int> iv1;
+typedef vector <vector<int> > iv2;
+typedef vector <ll> llv1;
+typedef unsigned int uint;
+typedef vector <ull> ullv1;
+typedef vector <vector <ull> > ullv2;
+typedef pair<ll, ll> pll;
 
-ll getDistance(pair <ll, ll> a, pair <ll, ll> b) {
-    return abs(a.first - b.first) + abs(a.second - b.second);
+ll tc; // 테스트케이스 수
+ll n, m; // n: 안전지대 크기, m: 시간
+ll poison_cnt; // 시체의 수
+ll heal_cnt; // 치유와드의 수
+
+vector<pll> poison;
+vector<pll> heal;
+
+int distance_poison(pll a, pll b) {
+  return max(llabs(a.first - b.first), llabs(a.second - b.second));
 }
 
-ll poisonEndT(pair <ll, ll> a, ll n) {
-    ll m = 0;
-    for(ll i=0; i<n; i+=n-1) {
-        m = max(m, llabs(i-a.first));
-        m = max(m, llabs(i-a.second));
-    }
-
-    return m;
-}
-
-ll healEndT(pair <ll, ll> a, ll n) {
-    ll m = 0;
-    for(ll i=0; i<n; i+=n-1) {
-        for(ll j=0; j<n; j+=n-1) {
-            m = max(m, getDistance(a, {i ,j}));
-        }
-    }
-
-    return m;
+int distance_heal(pll a, pll b) {
+  return llabs(a.first - b.first) + llabs(a.second - b.second);
 }
 
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    
-    ll tc; cin >> tc;
-    while(tc--) {
-        ll n, m; cin >> n >> m;
-        ll a, b; cin >> a >> b;
+  ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
-        vector<pair<ll, ll>> poison;
-        vector<pair<ll, ll>> heal;
+  cin >> tc;
 
-        pair<ll, ll> rc;
-        for(ll i=0; i<a; i++) {
-            cin >> rc.first >> rc.second;
-            poison.push_back(rc);
-        }
+  while(tc--) {
+    poison.clear();
+    heal.clear();
 
-        for(ll i=0; i<b; i++) {
-             cin >> rc.first >> rc.second;
-             heal.push_back(rc);
-        }
+    cin >> n >> m;
 
-        ll map[21][21] = {0};
+    cin >> poison_cnt >> heal_cnt;
 
-        // 반복문 종료시점 구하기
-        ll maxT = 0;
-        for(ll i=0; i<a; i++) {
-            maxT = max(maxT, poisonEndT(poison[i], n));
-        }
-        for(ll i=0; i<b; i++) {
-            maxT = max(maxT, healEndT(heal[i], n));
-        }
-        
-        for(ll t=1; t<=min(maxT, m); t++) {
-            // 독
-            for(ll aa=0; aa<a; aa++){
-                for(ll i=-t; i<=t; i++) {
-                    for(ll j=-t; j<=t; j++) {
-                        ll x = poison[aa].first + i;
-                        ll y = poison[aa].second + j;
-                        if(x>=0 && x<n && y>=0 && y<n) {
-                            map[x][y]--;
-                        }
-                    }
-                }
-            }
-
-            // 치유
-            for(ll bb=0; bb<b; bb++) {
-                for(ll i=-t; i<=t; i++) {
-                    if(i<=0) {
-                        for(ll j=-(i+t); j<=i+t; j++) {
-                            ll x = heal[bb].first + i;
-                            ll y = heal[bb].second + j;
-                            if(x>=0 && x<n && y>=0 && y<n) {
-                                map[x][y]++;
-                            }
-                        }
-                    } else {
-                        for(ll j=i-t; j<=t-i; j++) {
-                            ll x = heal[bb].first + i;
-                            ll y = heal[bb].second + j;
-                            if(x>=0 && x<n && y>=0 && y<n) {
-                                map[x][y]++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        for(ll i=0; i<n; i++) {
-            for(ll j=0; j<n; j++) {
-                cout << map[i][j] << ' ';
-            }
-            cout << "\n";
-        }
+    for(int i = 0; i < poison_cnt; i++) {
+      ll x, y;
+      cin >> x >> y;
+      poison.push_back({ y, x });
     }
+
+    for(int i = 0; i < heal_cnt; i++) {
+      ll x, y;
+      cin >> x >> y;
+      heal.push_back({ y, x });
+    }
+
+    for(int y = 0; y < n; y++) {
+      for(int x = 0; x < n; x++) {
+        ll p = 0, h = 0;
+        for(int i = 0; i < poison_cnt; i++) {
+          ll dis = distance_poison({ x, y }, poison[i]);
+
+          if(dis <= m) {
+            p += dis == 0 ? m : m - dis + 1;
+          }
+        }
+
+        for(int i = 0; i < heal_cnt; i++) {
+          ll dis = distance_heal({ x, y }, heal[i]);
+
+          if(dis <= m) {
+            h += dis == 0 ? m : m - dis + 1;
+          }
+        }
+        cout << h - p << " ";
+      }
+      cout << "\n";
+    }
+  }
 }
