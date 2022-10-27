@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cmath>
-#include <algorithm>
 using namespace std;
 
 int distance(int a[], int b[]) {
@@ -11,7 +9,7 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    
+
     int tc; cin >> tc;
     while(tc--) {
         int n, c_n; cin >> n >> c_n;
@@ -39,7 +37,6 @@ int main() {
         }
 
         int max = 0;
-
         for(int i=0; i<n; i++)
             for(int j=0; j<n; j++)
                 if(map[i][j] > max) max = map[i][j];
@@ -47,16 +44,9 @@ int main() {
         for(int i=0; i<n; i++)
             for(int j=0; j<n; j++)
                 if(map[j][i] == max) {
-                    cout << i << ' ' << j << ' ' << max << "\n";
+                    cout << i << ' ' << j << ' ' << max << '\n';
                     i+=n;
                     break;
                 }
-
-        // for(int i=0; i<n; i++) {
-        //     for(int j=0; j<n; j++)
-        //         cout << map[i][j] << ' ';
-        //     cout << "\n";
-        // }
-
     }
 }

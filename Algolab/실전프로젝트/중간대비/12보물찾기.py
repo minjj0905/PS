@@ -1,5 +1,5 @@
-import sys
 
+import sys
 tc = int(sys.stdin.readline())
 
 dir = {'F' : {'F' : 'F', 'R' : 'R', 'L' : 'L', 'B' : 'B'},
@@ -15,7 +15,7 @@ for _ in range(tc):
     map = []
     for _ in range(n):
         map.append(sys.stdin.readline().split())
-    
+
     x, y = 0, 0
     while True:
         n_dir = dir[prev][map[y][x][0]]
@@ -32,5 +32,3 @@ for _ in range(tc):
             elif n_dir == 'R': x += distance
             else: x -= distance
             prev = n_dir
-
-

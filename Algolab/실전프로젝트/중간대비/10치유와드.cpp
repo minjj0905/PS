@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -33,7 +34,7 @@ int main() {
 
         cin >> n >> m;
         cin >> p_cnt >> h_cnt;
-        
+
         ll x, y;
         for(int i=0; i<p_cnt; i++) {
             cin >> x >> y;
@@ -57,10 +58,10 @@ int main() {
                     ll distance = distance_h({x, y}, heal[i]);
                     if(distance <= m) h += distance ? m - distance + 1 : m;
                 }
-                
+
                 cout << h-p << ' ';
             }
-            cout << "\n";
+            cout << '\n';
         }
     }
 }

@@ -5,11 +5,11 @@ def postfix(s):
   stack = []
   ans = []
   arr = s.split()
-  
+
   for a in arr:
     if a.isdigit():
       ans.append(int(a))
-    elif a == "(":
+    elif a == '(':
       stack.append(a)
     elif a == ')':
       while stack and stack[-1] != '(':
@@ -22,12 +22,12 @@ def postfix(s):
 
   while stack:
     ans.append(stack.pop())
-
+  
   return ans
 
 def calc(arr):
   stack = []
-  
+
   for a in arr:
     if a == '+':
       stack.append(stack.pop() + stack.pop())
@@ -37,13 +37,11 @@ def calc(arr):
       stack.append(stack.pop() * stack.pop())
     else:
       stack.append(a)
-  
+
   return stack.pop()
-  
 
 tc = int(sys.stdin.readline())
 for _ in range(tc):
-  n = int(sys.stdin.readline())
-  s = sys.stdin.readline()
-
-  sys.stdout.write(str(calc(postfix(s))) + '\n')
+    n = int(sys.stdin.readline())
+    s = sys.stdin.readline()
+    sys.stdout.write(str(calc(postfix(s))) + '\n')

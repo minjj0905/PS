@@ -27,7 +27,7 @@ for i in range(t):
               if graph[ny][nx] == 1:
                   graph[ny][nx] = graph[y][x] + 1
                   queue.append((ny, nx))
-              
+
               elif graph[ny][nx] > graph[y][x] + 1:
                   graph[ny][nx] = graph[y][x] + 1
                   queue.append((ny, nx))
