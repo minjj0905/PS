@@ -1,10 +1,7 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
 using namespace std;
-
-int distance(int a[], int b[]) {
-    return abs(a[0] - b[0]) + abs(a[1] - b[1]);
-}
 
 int main() {
     ios::sync_with_stdio(0);
@@ -16,50 +13,61 @@ int main() {
         int n, m; cin >> n >> m;
         int a, b; cin >> a >> b;
 
-        int map[n][n] = {0};
-        fill(&map[0][0], &map[n-1][n-1], 0);
-        int demage[a][2] = {0};
-        int heal[b][2] = {0};
+        vector<pair<int, int>> poison;
+        vector<pair<int, int>> heal;
 
+        int p_map[22][22] = {0, };
+        int h_map[22][22] = {0, };
+
+        pair<int, int> rc;
         for(int i=0; i<a; i++) {
-           cin >> demage[i][1] >> demage[i][0];
+            cin >> rc.first >> rc.second;
+            poison.push_back(rc);
         }
-        
+
         for(int i=0; i<b; i++) {
-            cin >> heal[i][1] >> heal[i][0];
+             cin >> rc.first >> rc.second;
+             heal.push_back(rc);
         }
 
+        for(int t=1; t<=m; t++) {
+            // 시체 와드 돌리기
+            for(int p=0; p<a; p++) {
+                for(int i=-t; i<=t; i++) {
+                    for(int j=-t; j<=t; j++) {
+                        if(poison[p].first + i >= 0 && poison[p].first + i < n && poison[p].second + j >= 0 && poison[p].second + j < n) {
+                            p_map[poison[p].first + i][poison[p].second + j]--;
+                        }
+                    }
+                }
+            }
 
-        for(int i=1; i<=m; i++) {
-            for(int d=0; d<a; d++) {
-                int d_r = demage[d][1];
-                int d_c = demage[d][0];
-
-                for(int r=-i; r<=i; r++) {
-                    for(int c=-i; c<=i; c++) {
-                        map[d_c + c -1][d_r + r -1] -= i;
+            // 치유 와드 돌리기
+            for(int h=0; h<b; h++) {
+                for(int i=-t; i<=0; i++) {
+                    for(int j=-(i+t); j<=i+t; j++) {
+                        if(heal[h].first + i >= 0 && heal[h].first + i < n && heal[h].second + j >= 0 && heal[h].second + j < n) {
+                            h_map[heal[h].first + i][heal[h].second + j]++;
+                        }
+                    }
+                }
+                for(int i=1; i<=t; i++) {
+                    for(int j=i-t; j<=t-i; j++) {
+                        if(heal[h].first + i >= 0 && heal[h].first + i < n && heal[h].second + j >= 0 && heal[h].second + j < n) {
+                            h_map[heal[h].first + i][heal[h].second + j]++;
+                        }
                     }
                 }
             }
             
-            for(int h=0; h<b; h++) {
-                int h_r = heal[h][1];
-                int h_c = heal[h][0];
-
-                for(int r=-i; r<=i; r++) {
-                    for(int c=-i; c<=i; c++) {
-                        int cur[2] = {h_c + c, h_r + r};
-                        if(distance(heal[h], cur) <= i)
-                            map[h_c + c -1][h_r + r -1] += i;
-                    }
-                }
-            }
         }
 
-        for(int r=0; r<n; r++) {
-            for(int c=0; c<n; c++)
-                cout << map[c][r] << ' ';
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                cout << p_map[i][j]+h_map[i][j] << ' ';
+            }
             cout << "\n";
         }
+
     }
 }
