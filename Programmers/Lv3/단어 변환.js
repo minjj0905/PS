@@ -12,25 +12,6 @@ function solution(begin, target, words) {
     return cnt === 1;
   };
 
-  const graph = new Array(wordsLen)
-    .fill(0)
-    .map(() => new Array(wordsLen).fill(0));
-
-  for (let i = 0; i < wordsLen; i++) {
-    for (let j = i + 1; j < wordsLen; j++) {
-      let cnt = 0;
-      for (let k = 0; k < words[i].length; k++) {
-        if (words[i][k] !== words[j][k]) {
-          cnt++;
-        }
-      }
-      if (cnt === 1) {
-        graph[i][j] = 1;
-        graph[j][i] = 1;
-      }
-    }
-  }
-
   const q = [];
   const visit = new Array(wordsLen).fill(0);
 
@@ -52,7 +33,7 @@ function solution(begin, target, words) {
     }
 
     for (let i = 0; i < wordsLen; i++) {
-      if (i !== idx && graph[i][idx]) {
+      if (i !== idx && isChangeable(words[i], words[idx])) {
         q.push([i, cnt + 1, [...visited]]);
       }
     }
