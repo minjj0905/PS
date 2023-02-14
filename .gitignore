@@ -236,3 +236,4 @@ cython_debug/
 
 *.cph
 test.txt
+tempCodeRunnerFile.*
