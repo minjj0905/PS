@@ -19,12 +19,32 @@ class Header {
   render() {
     const header = document.createElement('header');
 
-    header.appendChild(this.createMenuElem('header header_left', 'menu_name', 'menu_home', 'HOME'));
-    header.appendChild(
-      this.createMenuElem('header header_right', 'menu_name', 'menu_signup', 'SIGNUP'),
+    const home_menu = this.createMenuElem('header header_left', 'menu_name', 'menu_home', 'HOME');
+    const signup_menu = this.createMenuElem(
+      'header header_right',
+      'menu_name',
+      'menu_signup',
+      'SIGNUP',
     );
-
+    header.appendChild(home_menu);
+    header.appendChild(signup_menu);
     this.$body.appendChild(header);
+
+    home_menu.addEventListener('click', () => {
+      window.history.pushState('', '', '/web/');
+      const urlChange = new CustomEvent('urlchange', {
+        detail: { href: '/web/' },
+      });
+      document.dispatchEvent(urlChange);
+    });
+
+    signup_menu.addEventListener('click', () => {
+      window.history.pushState('', '', '/web/signup');
+      const urlChange = new CustomEvent('urlchange', {
+        detail: { href: '/web/signup' },
+      });
+      document.dispatchEvent(urlChange);
+    });
   }
 }
 
