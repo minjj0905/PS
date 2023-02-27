@@ -1,3 +1,5 @@
+import Header from './components/Header.js';
+
 class App {
   constructor($body) {
     this.$body = $body;
@@ -5,9 +7,8 @@ class App {
   }
 
   render() {
-    const a = document.createElement('div');
-    a.innerHTML = 'test';
-    this.$body.appendChild(a);
+    const header = new Header(this.$body);
+    header.render();
   }
 }
 
