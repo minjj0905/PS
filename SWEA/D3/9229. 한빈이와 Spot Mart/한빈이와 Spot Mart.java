@@ -10,16 +10,12 @@ public class Solution {
 
   static void sol(int cnt, int sum) {
     if (cnt == 2) {
-      if (sum <= m) {
-        ans = Math.max(ans, sum);
-      }
+      if (sum <= m) ans = Math.max(ans, sum);
       return;
     }
 
     for (int i = 0; i < n; i++) {
-      if (select[i] == 1) {
-        continue;
-      }
+      if (select[i] == 1) continue;
       select[i] = 1;
       sol(cnt + 1, sum + arr[i]);
       select[i] = 0;
@@ -46,11 +42,7 @@ public class Solution {
 
       select = new int[n];
       sol(0, 0);
-      if (ans == 0) {
-        System.out.println("#" + t + " " + -1);
-        continue;
-      }
-      System.out.println("#" + t + " " + ans);
+      System.out.println("#" + t + " " + (ans > 0 ? ans : -1));
     }
   }
 }
